@@ -3,7 +3,6 @@ import { IoCartOutline } from "react-icons/io5";
 
 function Product({ productData }) {
     const [data, setData] = useState(productData.products[0])
-    console.log(data);
     return (
         <>
         <div className="max-w-[345px] bg-white p-4 rounded-xl flex flex-col items-center justify-center shadow-xl">
