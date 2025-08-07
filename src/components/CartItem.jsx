@@ -4,7 +4,7 @@ import { MdDeleteOutline } from "react-icons/md";
 
 function CartItem() {
     const [cart, setCart] = useState(productData.products[0])
-    console.log(cart);
+    // console.log(cart);
     return (
         <div>
             

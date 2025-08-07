@@ -1,6 +1,26 @@
+import axios from "axios";
+import { useEffect } from "react";
 import { FaCartPlus } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { setError, setLoading, setProductList } from "../store/slice/productSlice";
 
 function Header() {
+  const dispatch = useDispatch()
+  const BASE_URL = 'https://dummyjson.com'
+  useEffect(() => {
+    const fetchData = async () => {
+      dispatch(setLoading(true))
+        try {
+          const response = await axios.get(`${BASE_URL}/products`)
+          dispatch(setLoading(false))
+          dispatch(setProductList(response.data.products))
+        } catch (error) {
+          dispatch(setLoading(false))
+          dispatch(setError(error.message))
+        }
+    }
+    fetchData()
+  }, [])
   return (
     <>
       <nav className='bg-[#0D1B2A] '>
