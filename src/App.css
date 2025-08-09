@@ -1,8 +1,19 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 @layer base {
   body {
     background-color: #FFF8E1;
+    font-family: "Nunito", sans-serif;
+  }
+}
+
+@layer components {
+  .btn-animation {
+    @apply transition-transform duration-300 ease-in-out;
+  }
+  .btn-animation:active {
+    transform: scale(0.9);
   }
 }
 

@@ -10,6 +10,7 @@ function ProductList() {
         { productList.map(({ id, images, price, title, discountPercentage }) => (
           <Product 
             key={id} 
+            productId={id}
             imageUrl={images[0]} 
             price={price}
             title={title}
