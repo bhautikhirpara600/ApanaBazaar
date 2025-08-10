@@ -1,16 +1,15 @@
-import { useSelector } from "react-redux"
-import { Link } from "react-router-dom";
-import CartItem from './CartItem'
-import { finalCartDataSelector, totalPriceSelector } from "../store/slice/cartSlice";
+import { useSelector } from 'react-redux'
+import { finalWishListSelector } from '../store/slice/wishListSlice'
+import { Link } from 'react-router-dom'
+import WishListItem from './WishListItem'
 
-function FinalCart() {
+function FinalWishList() {
 
-    const cartData = useSelector(finalCartDataSelector)
-    const totalPrice = useSelector(totalPriceSelector)
-
+    const finalWishListData = useSelector(finalWishListSelector)
+    const totalPrice = finalWishListData.map(wishList => Math.round(wishList.price * 90)).reduce((acc, curr) => acc + curr, 0)
     return (
         <>
-            <h2 className="text-2xl md:text-3xl text-center font-semibold">Your Cart Summary</h2>
+            <h2 className="text-2xl md:text-3xl text-center font-semibold">Your Wish List</h2>
             <div className="border-b-1 border-b-[#ddd] flex items-center justify-between font-semibold md:text-xl text-center pb-2 pt-8">
                 <h3 className="w-full max-w-125">Item</h3>
                 <h3 className="w-full max-w-fit md:max-w-25">Price</h3>
@@ -18,8 +17,8 @@ function FinalCart() {
                 <h3 className="w-full max-w-fit md:max-w-25">Total</h3>
             </div>
             {
-                cartData.map(({ id, images, title, brand, rating, price, quantity }) => (
-                    <CartItem
+                finalWishListData.map(({ id, images, title, brand, rating, price }) => (
+                    <WishListItem
                         key={id}
                         productId={id}
                         imageUrl={images[0]}
@@ -27,7 +26,7 @@ function FinalCart() {
                         brand={brand}
                         rating={rating}
                         price={price}
-                        quantity={quantity}
+                        quantity={1}
                     />
                 ))
             }
@@ -39,4 +38,4 @@ function FinalCart() {
     )
 }
 
-export default FinalCart
+export default FinalWishList
