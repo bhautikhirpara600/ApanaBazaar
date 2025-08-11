@@ -2,39 +2,60 @@ import { IoCartOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { addCartItem } from "../store/slice/cartSlice";
-import { addWishListItem, removeWishListItem } from "../store/slice/wishListSlice";
+import {
+  addWishListItem,
+  removeWishListItem,
+  wishListSelector,
+} from "../store/slice/wishListSlice";
+import { convertToINR } from "../store/slice/productSlice";
 
 function Product({ productId, imageUrl, price, title, discountPercentage }) {
+  const dispatch = useDispatch();
+  const wishLists = useSelector(wishListSelector);
+  const isWishListed = wishLists.some(
+    (wishlist) => wishlist.productId === productId,
+  );
 
-    const dispatch = useDispatch()
-    const wishLists = useSelector(state => state.wishList.wishListData)
-    const isWishListed = wishLists.some(wishlist => wishlist.productId === productId);
+  const wishListHandler = () =>
+    isWishListed
+      ? dispatch(removeWishListItem({ productId }))
+      : dispatch(addWishListItem({ productId }));
 
-    const wishListHandler = () => isWishListed ? dispatch(removeWishListItem({ productId })) : dispatch(addWishListItem({ productId }))
-    
-    return (
-        <div className="max-w-[345px] bg-white p-4 rounded-xl flex flex-col items-center justify-center shadow-xl">
-            <div className="max-w-[200px]">
-                <img className="w-full" src={imageUrl} alt={`${title} Image`} />
-            </div>
-            <p className="font-bold text-xl text-center h-[56px] flex items-center">{title}</p>
-            <div className="w-full font-semibold flex items-center justify-between mt-2 mb-3 px-4">
-                <p>₹ {Math.round(price * 90)}</p>
-                <p>{discountPercentage}% off</p>
-            </div>
-            <div className="w-full flex items-center justify-between">
+  return (
+    <div className="flex max-w-[345px] flex-col items-center justify-center rounded-xl bg-white p-4 shadow-xl">
+      <div className="max-w-[200px]">
+        <img className="w-full" src={imageUrl} alt={`${title} Image`} />
+      </div>
+      <p className="flex h-[56px] items-center text-center text-xl font-bold">
+        {title}
+      </p>
+      <div className="mt-2 mb-3 flex w-full items-center justify-between px-4 font-semibold">
+        <p>₹ {convertToINR(price)}</p>
+        <p>{discountPercentage}% off</p>
+      </div>
+      <div className="flex w-full items-center justify-between">
+        <button
+          onClick={() => dispatch(addCartItem({ productId, quantity: 1 }))}
+          className="btn-animation flex min-h-11 cursor-pointer items-center rounded-md bg-[#43A047] px-3 py-2 font-semibold text-white hover:bg-[#2e7d32]"
+        >
+          <span className="mr-2 text-xl">
+            <IoCartOutline />
+          </span>
+          <span>Add to Cart</span>
+        </button>
 
-                <button onClick={() => dispatch(addCartItem({ productId, quantity: 1 }))} className="px-3 py-2 bg-[#43A047] rounded-md font-semibold text-white flex items-center min-h-11 cursor-pointer hover:bg-[#2e7d32] btn-animation">
-                    <span className="text-xl mr-2"><IoCartOutline /></span><span>Add to Cart</span>
-                </button>
-
-                <button onClick={wishListHandler} className="px-3 py-2 bg-[#43A047] rounded-md font-semibold text-white flex items-center cursor-pointer hover:bg-[#2e7d32] btn-animation ">
-                    <span className="text-xl mr-2 w-[28px] h-[28px] flex items-center justify-center">{isWishListed ? '❤️' : <FaRegHeart />}</span><span>Wishlist</span>
-                </button>
-
-            </div>
-        </div>
-    )
+        <button
+          onClick={wishListHandler}
+          className="btn-animation flex cursor-pointer items-center rounded-md bg-[#43A047] px-3 py-2 font-semibold text-white hover:bg-[#2e7d32]"
+        >
+          <span className="mr-2 flex h-[28px] w-[28px] items-center justify-center text-xl">
+            {isWishListed ? "❤️" : <FaRegHeart />}
+          </span>
+          <span>Wishlist</span>
+        </button>
+      </div>
+    </div>
+  );
 }
 
-export default Product
+export default Product;

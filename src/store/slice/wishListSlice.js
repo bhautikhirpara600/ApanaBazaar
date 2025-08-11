@@ -1,4 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { convertToINR } from "./productSlice";
 
 const findWishListIndex = (state, action) => state.wishListData.findIndex(({productId}) => productId === action.payload.productId)
 
@@ -18,8 +19,11 @@ export const wishListSlice = createSlice({
 
 export const { addWishListItem, removeWishListItem } = wishListSlice.actions
 
-const wishListSelector = (state) => state.wishList.wishListData
+export const wishListSelector = (state) => state.wishList.wishListData
 const productDataSelector = (state) => state.products.data
+
 export const finalWishListSelector = createSelector([wishListSelector, productDataSelector], (wishLists, products) => (
     wishLists.map((wishList) => products.find((product) => product.id === wishList.productId))
 ))
+
+export const totalWishListPriceSelector = createSelector([finalWishListSelector], (wishListData) => (wishListData.reduce((acc, curr) => acc + convertToINR(curr.price), 0)))

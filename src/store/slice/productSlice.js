@@ -11,6 +11,9 @@ export const fetchProducts = createAsyncThunk('product/fetchProducts', async(_, 
     }
 })
 
+const IND_CURRENCY_RATE = 90
+export const convertToINR = (price) => Math.round(price * IND_CURRENCY_RATE)
+
 export const productSlice = createSlice({
     name: 'product',
     initialState: {
@@ -35,3 +38,5 @@ export const productSlice = createSlice({
 })
 
 export const { setLoading, setProductList, setError } = productSlice.actions
+
+export const productListSelector = (state) => state.products.data

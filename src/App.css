@@ -12,6 +12,7 @@
   .btn-animation {
     @apply transition-transform duration-300 ease-in-out;
   }
+
   .btn-animation:active {
     transform: scale(0.9);
   }

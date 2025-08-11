@@ -1,4 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { convertToINR } from "./productSlice";
 
 const findCartIndex = (state, action) => state.cartData.findIndex((cartItem) => cartItem.productId === action.payload.productId)
 
@@ -36,7 +37,7 @@ export const cartSlice = createSlice({
 export const { addCartItem, removeCartItem, incrementQuantity, decrementQuantity } = cartSlice.actions
 
 const cartDataSelector = (state) => state.cartItem.cartData
-const productDataSelector = (state) => state.products.data
+export const productDataSelector = (state) => state.products.data
 
 export const finalCartDataSelector = createSelector([cartDataSelector, productDataSelector], (cartItems, products) => (
     cartItems.map((cartItem) => {
@@ -47,4 +48,6 @@ export const finalCartDataSelector = createSelector([cartDataSelector, productDa
     })
 ))
 
-export const totalPriceSelector = createSelector([finalCartDataSelector], (cartItems) => cartItems.reduce((acc, curr) => acc + Math.round(curr.price * 90) * (curr.quantity), 0))
+export const totalQuantitySelector = createSelector([cartDataSelector], (cartData) => (cartData.reduce((acc, curr) => acc + curr.quantity, 0)))
+
+export const totalPriceSelector = createSelector([finalCartDataSelector], (cartItems) => cartItems.reduce((acc, curr) => acc + convertToINR(curr.price) * (curr.quantity), 0))
