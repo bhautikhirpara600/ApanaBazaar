@@ -21,7 +21,7 @@ function Home() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-240px)]">
+    <main className="min-h-screen">
       <Offers discount={70} />
       <ProductList />
     </main>
