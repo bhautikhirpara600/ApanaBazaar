@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../store/slice/productSlice";
+import { fetchProducts } from "../../store/slice/productSlice";
 import { Link } from "react-router-dom";
 import {
   productDataSelector,
   totalQuantitySelector,
-} from "../store/slice/cartSlice";
+} from "../../store/slice/cartSlice";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);

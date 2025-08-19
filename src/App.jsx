@@ -1,9 +1,8 @@
 import { Outlet } from "react-router";
 import "./App.css";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import { Footer, Header } from "./components";
 
 function App() {
   return (

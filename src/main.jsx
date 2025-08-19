@@ -2,27 +2,32 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import App from "./App.jsx";
-import Home from "./components/pages/Home.jsx";
-import Cart from "./components/pages/Cart.jsx";
-import WishList from "./components/pages/WishList.jsx";
+import Home from "./pages/Home.jsx";
+import WishList from "./pages/WishList.jsx";
+import Cart from "./pages/Cart.jsx";
+import { ProductDetail } from "./components";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component: App,
+    element: <App />,
     children: [
       {
         index: true,
-        Component: Home,
+        element: <Home />,
       },
       {
         path: "/wishlist",
-        Component: WishList,
+        element: <WishList />,
       },
       {
         path: "/cart",
-        Component: Cart,
+        element: <Cart />,
       },
+      {
+        path: "/product-detail/:id",
+        element: <ProductDetail />
+      }
     ],
   },
 ]);

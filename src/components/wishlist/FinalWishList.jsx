@@ -1,19 +1,18 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import CartItem from "./CartItem";
+import WishListItem from "./WishListItem";
 import {
-  finalCartDataSelector,
-  totalPriceSelector,
-} from "../store/slice/cartSlice";
+  finalWishListSelector,
+  totalWishListPriceSelector,
+} from "../../store/slice/wishListSlice";
 
-function FinalCart() {
-  const cartData = useSelector(finalCartDataSelector);
-  const totalPrice = useSelector(totalPriceSelector);
-
+function FinalWishList() {
+  const finalWishListData = useSelector(finalWishListSelector);
+  const totalPrice = useSelector(totalWishListPriceSelector);
   return (
     <>
       <h2 className="text-center text-2xl font-semibold md:text-3xl">
-        Your Cart Summary
+        Your Wish List
       </h2>
       <div className="flex items-center justify-between border-b-1 border-b-[#ddd] pt-8 pb-2 text-center font-semibold md:text-xl">
         <h3 className="w-full max-w-125">Item</h3>
@@ -21,8 +20,8 @@ function FinalCart() {
         <h3 className="w-full max-w-20 md:max-w-50">Quantity</h3>
         <h3 className="w-full max-w-fit md:max-w-25">Total</h3>
       </div>
-      {cartData.map(({ id, images, title, brand, rating, price, quantity }) => (
-        <CartItem
+      {finalWishListData.map(({ id, images, title, brand, rating, price }) => (
+        <WishListItem
           key={id}
           productId={id}
           imageUrl={images[0]}
@@ -30,7 +29,7 @@ function FinalCart() {
           brand={brand}
           rating={rating}
           price={price}
-          quantity={quantity}
+          quantity={1}
         />
       ))}
       <div className="flex flex-col items-end text-end font-semibold md:text-center md:text-lg">
@@ -46,4 +45,4 @@ function FinalCart() {
   );
 }
 
-export default FinalCart;
+export default FinalWishList;

@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
-import { finalWishListSelector } from "../../store/slice/wishListSlice";
-import EmptyWishList from "../EmptyWishList";
-import FinalWishList from "../FinalWishList";
+import { EmptyWishList, FinalWishList } from "../components";
+import { finalWishListSelector } from "../store/slice/wishListSlice";
 
 function WishList() {
   const finalWishListData = useSelector(finalWishListSelector);

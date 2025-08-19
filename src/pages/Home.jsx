@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
-import Offers from "../Offers";
-import ProductList from "../ProductList";
+import { Offers, ProductList } from "../components";
 
 function Home() {
   const { isLoading, error } = useSelector((state) => state.products);
