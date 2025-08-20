@@ -22,13 +22,21 @@ function Product({ productId, imageUrl, price, title, discountPercentage }) {
     isWishListed
       ? dispatch(removeWishListItem({ productId }))
       : dispatch(addWishListItem({ productId }));
-  
-  const [isLoadImage, setIsLoadImage] = useState(false)
+
+  const [isLoadImage, setIsLoadImage] = useState(false);
 
   return (
     <div className="flex max-w-[345px] flex-col items-center justify-center rounded-xl bg-white p-4 shadow-xl transition-transform duration-800 hover:scale-105 hover:shadow-2xl">
-      <Link to={`/product-detail/${productId}`} className="max-w-[200px]">{!isLoadImage ? <div className="size-[200px] animate-pulse bg-gray-300"></div> : <img className="w-full" onLoad={() => setIsLoadImage(true)} src={imageUrl} alt={`${title} Image`} />}
-        
+      <Link to={`/product-detail/${productId}`} className="max-w-[200px]">
+        {!isLoadImage && (
+          <div className="size-[200px] animate-pulse bg-gray-300"></div>
+        )}
+        <img
+          className="w-full"
+          onLoad={() => setIsLoadImage(true)}
+          src={imageUrl}
+          alt={`${title} Image`}
+        />
       </Link>
       <p className="flex h-[56px] items-center text-center text-xl font-bold">
         {title}
