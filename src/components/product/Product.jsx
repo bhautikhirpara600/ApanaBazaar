@@ -9,6 +9,7 @@ import {
 } from "../../store/slice/wishListSlice";
 import { convertToINR } from "../../store/slice/productSlice";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function Product({ productId, imageUrl, price, title, discountPercentage }) {
   const dispatch = useDispatch();
@@ -21,13 +22,13 @@ function Product({ productId, imageUrl, price, title, discountPercentage }) {
     isWishListed
       ? dispatch(removeWishListItem({ productId }))
       : dispatch(addWishListItem({ productId }));
+  
+  const [isLoadImage, setIsLoadImage] = useState(false)
 
   return (
-    <div
-      className="flex max-w-[345px] flex-col items-center justify-center rounded-xl bg-white p-4 shadow-xl transition-transform duration-800 hover:scale-105 hover:shadow-2xl"
-    >
-      <Link to={`/product-detail/${productId}`} className="max-w-[200px]">
-        <img className="w-full" src={imageUrl} alt={`${title} Image`} />
+    <div className="flex max-w-[345px] flex-col items-center justify-center rounded-xl bg-white p-4 shadow-xl transition-transform duration-800 hover:scale-105 hover:shadow-2xl">
+      <Link to={`/product-detail/${productId}`} className="max-w-[200px]">{!isLoadImage ? <div className="size-[200px] animate-pulse bg-gray-300"></div> : <img className="w-full" onLoad={() => setIsLoadImage(true)} src={imageUrl} alt={`${title} Image`} />}
+        
       </Link>
       <p className="flex h-[56px] items-center text-center text-xl font-bold">
         {title}
@@ -39,7 +40,7 @@ function Product({ productId, imageUrl, price, title, discountPercentage }) {
       <div className="flex w-full items-center justify-between">
         <button
           onClick={() => dispatch(addCartItem({ productId, quantity: 1 }))}
-          className="btn-animation flex min-h-11 cursor-pointer items-center rounded-md bg-[#43A047] px-3 py-2 font-semibold text-white hover:bg-[#2e7d32]"
+          className="btn-animation flex min-h-11 cursor-pointer items-center rounded-md bg-[#43A047] px-3 py-2 font-semibold text-white hover:scale-105 hover:bg-[#2e7d32] hover:shadow-md"
         >
           <span className="mr-2 text-xl">
             <IoCartOutline />
@@ -49,7 +50,7 @@ function Product({ productId, imageUrl, price, title, discountPercentage }) {
 
         <button
           onClick={wishListHandler}
-          className="btn-animation flex cursor-pointer items-center rounded-md bg-[#43A047] px-3 py-2 font-semibold text-white hover:bg-[#2e7d32]"
+          className="btn-animation flex cursor-pointer items-center rounded-md bg-[#43A047] px-3 py-2 font-semibold text-white hover:scale-105 hover:bg-[#2e7d32] hover:shadow-md"
         >
           <span className="mr-2 flex h-[28px] w-[28px] items-center justify-center text-xl">
             {isWishListed ? "❤️" : <FaRegHeart />}
