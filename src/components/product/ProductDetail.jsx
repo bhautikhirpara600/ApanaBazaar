@@ -3,7 +3,7 @@ import {
   convertToINR,
   productListSelector,
 } from "../../store/slice/productSlice";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { IoCartOutline, IoStar } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
 import { useParams } from "react-router-dom";
@@ -14,29 +14,53 @@ function ProductDetail() {
   const productData = productListArr.find(
     (product) => product.id === Number(id),
   );
-  console.log(productData);
 
-  const setImageArr = (arr) => {
+  const setImageArr = (ImageArr) => {
     return [0, 1, 2].map((el) => {
-      if (!arr) return [];
-      if (arr.length === 1) return arr[0];
-      if (arr.length === 2) return el === 2 ? arr[0] : arr[el];
-      return arr[el];
+      if (!ImageArr) return [];
+      if (ImageArr.length === 1) return ImageArr[0];
+      if (ImageArr.length === 2) return el === 2 ? ImageArr[0] : ImageArr[el];
+      return ImageArr[el];
     });
   };
 
+  const mainImgRef = useRef();
+
+  const productImages = useMemo(
+    () => setImageArr(productData?.images),
+    [productData],
+  );
+
   const [selectedImg, setSelectedImg] = useState(null);
   const [loadedImages, setLoadedImages] = useState({});
-  const handleImageLoad = (index) => {
+  const handleImageLoad = useCallback((index) => {
     setLoadedImages((prev) => ({ ...prev, [index]: true }));
-  };
+  }, []);
 
   useEffect(() => {
-    if (productData) {
-      const productImages = setImageArr(productData.images);
+    if (productImages.length > 0) {
       setSelectedImg(productImages[0]);
     }
-  }, [productData]);
+  }, [productImages]);
+
+  const [mainImageLoaded, setMainImageLoaded] = useState(false);
+  
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (mainImgRef.current) {
+      mainImgRef.current.classList.remove("opacity-100");
+      mainImgRef.current.classList.add("opacity-0");
+      setMainImageLoaded(false);
+    }
+  }, [selectedImg]);
+
+  const handleMainImageLoad = () => {
+    if (mainImgRef.current) {
+      mainImgRef.current.classList.remove("opacity-0");
+      mainImgRef.current.classList.add("opacity-100");
+      setMainImageLoaded(true);
+    }
+  };
 
   if (!productData) {
     return <div>Loading...</div>;
@@ -51,10 +75,10 @@ function ProductDetail() {
         <div className="items-starts media1440:flex-row media1440:justify-evenly mt-8 flex flex-col">
           <div className="media720:flex-row flex flex-col-reverse justify-center">
             <div className="media720:block mt-8 flex justify-evenly space-y-8">
-              {setImageArr(productData.images).map((imageUrl, index) => (
+              {productImages.map((imageUrl, index) => (
                 <div
                   key={index}
-                  className="cursor-pointer border-2 border-transparent hover:border-2 hover:border-orange-700"
+                  className="cursor-pointer border-2 border-transparent hover:border-orange-600"
                 >
                   {!loadedImages[index] && (
                     <div className="media720:size-[100px] size-[70px] animate-pulse bg-gray-200" />
@@ -64,26 +88,26 @@ function ProductDetail() {
                       loadedImages[index] ? "opacity-100" : "opacity-0"
                     }`}
                     onLoad={() => handleImageLoad(index)}
+                    onClick={() => setSelectedImg(imageUrl)}
                     src={imageUrl}
                     alt={`${productData.title}-${index + 1}`}
                   />
                 </div>
               ))}
             </div>
-            <div>
-              <div className="media550:size-[400px] media720:size-[500px] relative mx-auto size-[320px]">
-                {!loadedImages[0] && (
-                  <div className="media550:size-[400px] media720:size-[500px] size-[320px] animate-pulse rounded-md bg-gray-200" />
-                )}
-                <img
-                  className={`w-full max-w-[500px] ${
-                    loadedImages[0] ? "opacity-100" : "opacity-0"
-                  }`}
-                  onLoad={() => handleImageLoad(0)}
-                  src={selectedImg}
-                  alt="Product Image"
-                />
-              </div>
+            <div className="media550:size-[400px] media720:size-[500px] relative mx-auto flex size-[320px] items-center justify-center">
+              {!mainImageLoaded && (
+                <p className="text-lg font-medium text-gray-500">
+                  Loading Image...
+                </p>
+              )}
+              <img
+                className="absolute top-0 w-full max-w-[500px] transition-opacity duration-500 ease-in-out"
+                ref={mainImgRef}
+                src={selectedImg}
+                alt="Product Image"
+                onLoad={handleMainImageLoad}
+              />
             </div>
           </div>
 
