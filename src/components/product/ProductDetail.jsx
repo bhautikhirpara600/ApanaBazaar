@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   convertToINR,
   productListSelector,
@@ -6,7 +6,8 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { IoCartOutline, IoStar } from "react-icons/io5";
 import { MdDeleteOutline } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { addCartItem, removeCartItem } from "../../store/slice/cartSlice";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -24,6 +25,7 @@ function ProductDetail() {
     });
   };
 
+  const dispatch= useDispatch()
   const mainImgRef = useRef();
 
   const productImages = useMemo(
@@ -148,22 +150,22 @@ function ProductDetail() {
               ₹{convertToINR(productData.price)}
             </p>
             <div className="my-4 flex space-x-8">
-              <button className="btn-animation flex min-h-11 cursor-pointer items-center rounded-md bg-[#43A047] px-3 py-2 font-semibold text-white hover:scale-105 hover:bg-[#2e7d32] hover:shadow-md">
+              <button onClick={() => dispatch(addCartItem({productId: productData.id, quantity: 1}))} className="btn-animation flex min-h-11 cursor-pointer items-center rounded-md bg-[#43A047] px-3 py-2 font-semibold text-white hover:scale-105 hover:bg-[#2e7d32] hover:shadow-md">
                 <span className="mr-2 text-xl">
                   <IoCartOutline />
                 </span>
                 <span>Add to Cart</span>
               </button>
-              <button className="btn-animation flex min-h-11 cursor-pointer items-center rounded-md bg-red-500 px-3 py-2 font-semibold text-white hover:scale-105 hover:bg-red-600 hover:shadow-md">
+              <button onClick={() => dispatch(removeCartItem({productId: productData.id}))} className="btn-animation flex min-h-11 cursor-pointer items-center rounded-md bg-red-500 px-3 py-2 font-semibold text-white hover:scale-105 hover:bg-red-600 hover:shadow-md">
                 <span className="mr-2 text-xl">
                   <MdDeleteOutline />
                 </span>
                 <span>Remove</span>
               </button>
             </div>
-            <button className="btn-animation flex min-h-11 w-[280px] cursor-pointer items-center justify-center rounded-md bg-orange-500 px-3 py-2 font-semibold text-white hover:scale-105 hover:bg-orange-600 hover:shadow-md">
+            <Link to={"/"} className="btn-animation flex min-h-11 w-[280px] cursor-pointer items-center justify-center rounded-md bg-orange-500 px-3 py-2 font-semibold text-white hover:scale-105 hover:bg-orange-600 hover:shadow-md">
               Get More Products
-            </button>
+            </Link>
           </div>
         </div>
       </div>

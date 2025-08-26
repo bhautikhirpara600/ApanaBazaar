@@ -6,7 +6,10 @@ function Offers({ discount }) {
           <h1 className="media550:text-4xl text-center text-3xl font-bold">
             Festive Deals – Upto {discount}% OFF!
           </h1>
-          <button className="cursor-pointer rounded-lg bg-[#43A047] px-6 py-3 font-semibold">
+          <button
+            onClick={() => window.scrollTo({ top: 240, behavior: "smooth" })}
+            className="btn-animation cursor-pointer rounded-lg bg-[#43A047] px-6 py-3 font-semibold hover:scale-105 hover:bg-[#2e7d32] hover:shadow-md"
+          >
             Shop Now
           </button>
         </div>
