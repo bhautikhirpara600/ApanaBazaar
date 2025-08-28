@@ -2,9 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const BASE_URL = 'https://dummyjson.com'
-export const fetchProducts = createAsyncThunk('product/fetchProducts', async(_, thunkApi) => {
+export const fetchProducts = createAsyncThunk('product/fetchProducts', async(searchTerm = '', thunkApi) => {
     try {
-        const response = await axios.get(`${BASE_URL}/products`)
+        const endpoint = searchTerm
+        ? `${BASE_URL}/products/search?q=${searchTerm}`
+        : `${BASE_URL}/products`
+
+        const response = await axios.get(endpoint);
         return response.data.products
     } catch(error) {
         return thunkApi.rejectWithValue(error.message)

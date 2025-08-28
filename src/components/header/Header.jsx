@@ -16,6 +16,8 @@ function Header() {
   const productData = useSelector(productDataSelector);
   const totalQuantity = useSelector(totalQuantitySelector);
 
+  const handleLinkClick = () => setIsOpen(false)
+
   useEffect(() => {
     if (productData.length === 0) {
       dispatch(fetchProducts());
@@ -55,31 +57,31 @@ function Header() {
           <label htmlFor="hamburger-menu" className="media550:hidden z-30">
             <div className="flex h-[19px] w-[25px] cursor-pointer flex-col justify-between">
               <span
-                className={`h-[3px] rounded-[4px] bg-[#FFF8E1] transition-all duration-300 ${isOpen ? "w-[20px] translate-x-[-3px] translate-y-[13px] rotate-45" : ""}`}
+                className={`h-[3px] rounded-[4px] bg-[#FFF8E1] transition-transform duration-300 ${isOpen ? "w-[20px] translate-x-[-3px] translate-y-[3px] rotate-45" : ""}`}
               ></span>
 
               <span
-                className={`h-[3px] rounded-[4px] bg-[#FFF8E1] transition-all duration-300 ${isOpen ? "opacity-0" : ""}`}
+                className={`h-[3px] rounded-[4px] bg-[#FFF8E1] transition-transform duration-300 ${isOpen ? "opacity-0" : ""}`}
               ></span>
 
               <span
-                className={`h-[3px] rounded-[4px] bg-[#FFF8E1] transition-all duration-300 ${isOpen ? "w-[20px] translate-x-[-3px] -translate-y-[3px] -rotate-45" : ""}`}
+                className={`h-[3px] rounded-[4px] bg-[#FFF8E1] transition-transform duration-300 ${isOpen ? "w-[20px] translate-x-[-3px] -translate-y-[13px] -rotate-45" : ""}`}
               ></span>
             </div>
           </label>
 
           <div
-            className={`${isOpen ? "transition-top absolute top-[20px] right-4 rounded-xl bg-black/85 backdrop-blur-md duration-300 ease-in-out" : "media550:top-0 media550:relative absolute top-[-150px] z-20"}`}
+            className={`transition-all duration-800 ease-in-out media550:right-0 right-4 ${isOpen ? "absolute top-[10px] rounded-sm bg-black/85 backdrop-blur-md opacity-100" : "media550:top-0 media550:relative absolute top-[-150px] opacity-0 media550:opacity-100 z-20"}`}
           >
-            <ul className="media550:items-center media550:space-y-0 media550:flex-row media550:p-0 flex flex-col space-y-2 space-x-4 p-4 text-lg font-medium text-[#FFF8E1]">
+            <ul className="media550:items-center media550:space-y-0 media550:flex-row media550:p-0 flex flex-col space-y-2 space-x-4 p-4 w-[155px] text-lg font-medium text-[#FFF8E1]">
               <li>
-                <Link to="/">Home</Link>
+                <Link to="/" onClick={handleLinkClick}>Home</Link>
               </li>
               <li>
-                <Link to="/wishlist">Wishlist</Link>
+                <Link to="/wishlist" onClick={handleLinkClick}>Wishlist</Link>
               </li>
               <li className="relative text-2xl">
-                <Link to="/cart">
+                <Link to="/cart" onClick={handleLinkClick}>
                   {
                     <>
                       {" "}
@@ -93,7 +95,7 @@ function Header() {
                   }
 
                   {totalQuantity ? (
-                    <span className="media550:top-[-12px] media550:right-0 absolute top-[6px] right-[25px] size-4 rounded-full bg-red-500 text-center text-[12px]">
+                    <span className="media550:top-[-12px] media550:right-0 absolute top-[6px] right-[65px] size-4 rounded-full bg-red-500 text-center text-[12px]">
                       {totalQuantity}
                     </span>
                   ) : (
