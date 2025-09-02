@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
+@plugin 'tailwind-scrollbar' {
+  nocompatible: true;
+  preferredStrategy: 'pseudoelements';
+}
+
 @layer base {
   body {
     background-color: #FFF8E1;
@@ -26,11 +31,14 @@
   --breakpoint-media550: 550px;
 
   --animate-up: up 1s ease-in-out infinite;
+
   @keyframes up {
+
     0%,
     100% {
       transform: translateY(0);
     }
+
     50% {
       transform: translateY(-6px);
     }

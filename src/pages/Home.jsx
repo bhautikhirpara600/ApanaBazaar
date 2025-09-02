@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 function Home() {
   const [showBtn, setShowBtn] = useState(false)
+  const [title, setTitle] = useState(null)
   const SCROLL_THRESHOLD = 1000
 
   useEffect(() => {
@@ -34,8 +35,8 @@ function Home() {
   return (
     <main className="min-h-[calc(100vh-236px)]">
       <Offers discount={70} />
-      <SearchBar />
-      <ProductList />
+      <SearchBar setTitle={setTitle} title={title} />
+      <ProductList title={title} />
       {showBtn && <ScrollToTopButton onClick={() => window.scrollTo({ top:0, behavior: "smooth" })} />}
     </main>
   );
