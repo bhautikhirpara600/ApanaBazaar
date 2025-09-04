@@ -6,11 +6,11 @@ import WishListItem from "./wishlist/WishListItem";
 import EmptyWishList from "./wishlist/EmptyWishList";
 import FinalWishList from "./wishlist/FinalWishList";
 import Offers from "./product/Offers"
-import SearchBar from "./product/SearchBar";
+import ProductNavigator from "./product/ProductNavigator"
 import Product from "./product/Product"
 import ScrollToTopButton from "./product/ScrollToTopButton"
 import ProductList from "./product/ProductList"
 import ProductDetail from "./product/ProductDetail";
 import Footer from "./footer/Footer";
 
-export { Header, CartItem, EmptyCart, FinalCart, WishListItem, EmptyWishList, FinalWishList, Offers, SearchBar, Product,ScrollToTopButton ,ProductList, ProductDetail, Footer }
+export { Header, CartItem, EmptyCart, FinalCart, WishListItem, EmptyWishList, FinalWishList, Offers, ProductNavigator, Product,ScrollToTopButton ,ProductList, ProductDetail, Footer }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "../../store/slice/productSlice";
@@ -63,8 +63,8 @@ function SearchBar({ setTitle, title }) {
   };
 
   return (
-    <div className="mt-4 ml-10 flex w-[300px] rounded-md border-2 border-[#FF6F00] bg-white">
-      <div className="relative flex cursor-pointer bg-[#FF6F00] text-[14px] text-white">
+    <div className="flex max-w-[600px] w-full rounded-md border-2 border-[#FF6F00] bg-white">
+      <div className="relative flex cursor-pointer bg-[#FF6F00] text-white">
         <div
           onClick={handleDropDown}
           className="flex items-center space-x-2 pl-2"
@@ -77,7 +77,7 @@ function SearchBar({ setTitle, title }) {
           </span>
         </div>
         <div
-          className={`scrollbar-thin scrollbar-thumb-amber-700 scrollbar-track-amber-300 absolute top-[41px] left-[-1px] flex max-h-25 flex-col overflow-y-auto bg-amber-200 py-1 pr-6 pl-2 text-gray-800 transition-all duration-500 ease-in-out ${isOpen ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[-100px] opacity-0"}`}
+          className={`scrollbar-thin scrollbar-thumb-amber-700 scrollbar-track-amber-300 absolute top-10 left-0 flex max-h-25 flex-col overflow-y-auto bg-amber-200 py-1 pr-6 pl-2 text-gray-800 transition-all duration-500 ease-in-out ${isOpen ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[-100px] opacity-0"}`}
         >
           {searchBarCategories.map((category) => (
             <span
@@ -123,7 +123,7 @@ function SearchBar({ setTitle, title }) {
       </div>
       <span
         onClick={handleSearchIcon}
-        className="flex h-10 cursor-pointer items-center bg-[#FF6F00] px-2 text-[#FFF8E1]"
+        className="flex h-10 cursor-pointer items-center bg-[#FF6F00] px-3 text-xl text-[#FFF8E1]"
       >
         <RiSearchLine />
       </span>

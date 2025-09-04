@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Offers, ProductList, ScrollToTopButton, SearchBar } from "../components";
+import { Offers, ProductList, ScrollToTopButton, ProductNavigator } from "../components";
 import { useEffect, useState } from "react";
 
 function Home() {
@@ -35,7 +35,7 @@ function Home() {
   return (
     <main className="min-h-[calc(100vh-236px)]">
       <Offers discount={70} />
-      <SearchBar setTitle={setTitle} title={title} />
+      <ProductNavigator setTitle={setTitle} title={title} />
       <ProductList title={title} />
       {showBtn && <ScrollToTopButton onClick={() => window.scrollTo({ top:0, behavior: "smooth" })} />}
     </main>

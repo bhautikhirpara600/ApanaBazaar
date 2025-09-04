@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const BASE_URL = 'https://dummyjson.com'
@@ -23,7 +23,13 @@ export const productSlice = createSlice({
     initialState: {
         isLoading: false,
         data: [],
+        sortType: '',
         error: ''
+    },
+    reducers: {
+        sortProductBy(state, action) {
+            state.sortType = action.payload
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -41,6 +47,27 @@ export const productSlice = createSlice({
     }
 })
 
-export const { setLoading, setProductList, setError } = productSlice.actions
+export const { sortProductBy } = productSlice.actions
 
-export const productListSelector = (state) => state.products.data
+const sortByPriceLowToHigh = (myData) => [...myData].sort((a,b) => a.price - b.price)
+const sortByPriceHighToLow = (myData) => [...myData].sort((a,b) => b.price - a.price)
+const sortByNameAToZ = (myData) => [...myData].sort((a,b) => a.title.localeCompare(b.title))
+const sortByNameZToA = (myData) => [...myData].sort((a,b) => b.title.localeCompare(a.title))
+
+const productDataSelector = (state) => state.products.data
+const productSortSelector = (state) => state.products.sortType
+export const productListSelector = createSelector([productDataSelector, productSortSelector], (productData, sortType) => {
+    if(sortType === "priceLowToHigh") {
+        return sortByPriceLowToHigh(productData)
+    }
+    if(sortType === "priceHighToLow") {
+        return sortByPriceHighToLow(productData)
+    }
+    if(sortType === "NameAToZ") {
+        return sortByNameAToZ(productData)
+    }
+    if(sortType === "NameZToA") {
+        return sortByNameZToA(productData)
+    }
+    return productData
+})
