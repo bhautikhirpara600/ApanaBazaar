@@ -1,13 +1,17 @@
-import { productListSelector } from "../../store/slice/productSlice";
+import {
+  finalHeadingSelector,
+  productListSelector,
+} from "../../store/slice/productSlice";
 import Product from "./Product";
 import { useSelector } from "react-redux";
 
-function ProductList({ title }) {
+function ProductList() {
   const productList = useSelector(productListSelector);
+  const productHeading = useSelector(finalHeadingSelector);
   return (
     <section className="mx-auto mb-16 max-w-[1536px]">
       <h2 className="media550:text-4xl mb-8 text-center text-3xl font-bold">
-        {title !== null && title !== "All" ? title : "Top Deals"}
+        {productHeading}
       </h2>
       <div className="media720:grid-cols-2 media1050:grid-cols-3 media1440:grid-cols-4 mx-[40px] grid max-w-[1350px] grid-cols-[345px] justify-center gap-10 xl:mx-[85px]">
         {productList.map(({ id, images, price, title, discountPercentage }) => (

@@ -1,36 +1,26 @@
 import { useRef, useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
-import { useDispatch } from "react-redux";
-import { fetchProducts } from "../../store/slice/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProducts,
+  finalHeadingSelector,
+  setHeading,
+} from "../../store/slice/productSlice";
 import { IoChevronDown } from "react-icons/io5";
 import { Typewriter } from "react-simple-typewriter";
+import { searchBarCategories } from "../../constants/categoryLists";
 
-function SearchBar({ setTitle, title }) {
-  const searchBarCategories = [
-    "All",
-    "Phone",
-    "Laptop",
-    "Charger",
-    "Tablet",
-    "Bike",
-    "Watch",
-    "Shoes",
-    "Shirt",
-    "Dress",
-    "Earring",
-    "Glasses",
-    "Handbag",
-  ];
-
+function SearchBar() {
   const inputRef = useRef();
   const dispatch = useDispatch();
+  const productHeading = useSelector(finalHeadingSelector);
   const [isOpen, setIsOpen] = useState(false);
   const [userInput, setUserInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
   const handleFunction = (userInput) => {
     dispatch(fetchProducts(userInput));
-    setTitle(userInput);
+    dispatch(setHeading(userInput));
     setUserInput("");
   };
 
@@ -58,18 +48,22 @@ function SearchBar({ setTitle, title }) {
 
   const handleDropDownOption = (category) => {
     dispatch(fetchProducts(category === "All" ? "" : category.toLowerCase()));
-    setTitle(category);
+    dispatch(setHeading(category === "All" ? "" : category));
     setIsOpen(false);
   };
 
   return (
-    <div className="flex max-w-[600px] w-full rounded-md border-2 border-[#FF6F00] bg-white">
+    <div className="flex w-full max-w-[600px] rounded-md border-2 border-[#FF6F00] bg-white">
       <div className="relative flex cursor-pointer bg-[#FF6F00] text-white">
         <div
           onClick={handleDropDown}
           className="flex items-center space-x-2 pl-2"
         >
-          <span>{title || "All"}</span>
+          <span>
+            {searchBarCategories.includes(productHeading)
+              ? productHeading
+              : "All"}
+          </span>
           <span
             className={`transition-transform duration-300 ease-in-out ${isOpen && "rotate-180"}`}
           >
@@ -77,12 +71,12 @@ function SearchBar({ setTitle, title }) {
           </span>
         </div>
         <div
-          className={`scrollbar-thin scrollbar-thumb-amber-700 scrollbar-track-amber-300 absolute top-10 left-0 flex max-h-25 flex-col overflow-y-auto bg-amber-200 py-1 pr-6 pl-2 text-gray-800 transition-all duration-500 ease-in-out ${isOpen ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[-100px] opacity-0"}`}
+          className={`scrollbar-thin scrollbar-thumb-amber-700 scrollbar-track-amber-300 absolute top-10 left-0 flex max-h-25 flex-col overflow-y-auto bg-amber-200 py-1 text-gray-800 transition-all duration-500 ease-in-out ${isOpen ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[-100px] opacity-0"}`}
         >
           {searchBarCategories.map((category) => (
             <span
               key={category}
-              className="hover:font-bold hover:underline"
+              className="pr-4 pl-2 hover:bg-amber-500"
               onClick={() => handleDropDownOption(category)}
             >
               {category}

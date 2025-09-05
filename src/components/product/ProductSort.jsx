@@ -34,11 +34,11 @@ function ProductSort() {
       </span>
       <span>Sort</span>
       <ul
-        className={`absolute top-10 left-0 w-full bg-amber-200 py-1 pl-5 text-[16px] text-gray-800 transition-all duration-500 ease-in-out ${isOpen ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[-100px] opacity-0"}`}
+        className={`absolute scrollbar-thin scrollbar-thumb-amber-700 scrollbar-track-amber-300 overflow-y-scroll max-h-20 top-10 left-0 w-full bg-amber-200 py-1 text-[16px] text-gray-800 transition-all duration-500 ease-in-out ${isOpen ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[-100px] opacity-0"}`}
       >
         <li
           onClick={() => applySort("priceLowToHigh")}
-          className="flex items-center space-x-3 hover:font-bold hover:underline"
+          className="flex items-center space-x-3 pl-5 hover:bg-amber-500"
         >
           <span>Price</span>{" "}
           <span>
@@ -47,7 +47,7 @@ function ProductSort() {
         </li>
         <li
           onClick={() => applySort("priceHighToLow")}
-          className="flex items-center space-x-3 hover:font-bold hover:underline"
+          className="flex items-center space-x-3 pl-5 hover:bg-amber-500"
         >
           <span>Price</span>{" "}
           <span>
@@ -56,7 +56,7 @@ function ProductSort() {
         </li>
         <li
           onClick={() => applySort("NameAToZ")}
-          className="flex items-center space-x-3 hover:font-bold hover:underline"
+          className="flex items-center space-x-3 pl-5 hover:bg-amber-500"
         >
           <span>Name</span>{" "}
           <span>
@@ -65,7 +65,7 @@ function ProductSort() {
         </li>
         <li
           onClick={() => applySort("NameZToA")}
-          className="flex items-center space-x-3 hover:font-bold hover:underline"
+          className="flex items-center space-x-3 pl-5 hover:bg-amber-500"
         >
           <span>Name</span>{" "}
           <span>
@@ -74,7 +74,7 @@ function ProductSort() {
         </li>
         <li
           onClick={() => applySort("")}
-          className="flex items-center space-x-3 hover:font-bold hover:underline"
+          className="flex items-center space-x-3 pl-5 hover:bg-amber-500"
         >
           <span>Clear</span>{" "}
           <span>

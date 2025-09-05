@@ -1,22 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts } from "../../store/slice/productSlice";
+import { fetchProducts, setHeading } from "../../store/slice/productSlice";
 import { Link } from "react-router-dom";
 import {
   productDataSelector,
   totalQuantitySelector,
 } from "../../store/slice/cartSlice";
+import { IoMdArrowDropdown } from "react-icons/io";
+import { categoryList } from "../../constants/categoryLists";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const dropDownRef = useRef(null);
 
   const dispatch = useDispatch();
   const productData = useSelector(productDataSelector);
   const totalQuantity = useSelector(totalQuantitySelector);
 
-  const handleLinkClick = () => setIsOpen(false)
+  const handleLinkClick = () => setIsOpen(false);
 
   useEffect(() => {
     if (productData.length === 0) {
@@ -28,6 +31,7 @@ function Header() {
     const handleClickOutside = (e) => {
       if (dropDownRef.current && !dropDownRef.current.contains(e.target)) {
         setIsOpen(false);
+        setIsCategoryOpen(false);
       }
     };
 
@@ -71,15 +75,52 @@ function Header() {
           </label>
 
           <div
-            className={`transition-all duration-800 ease-in-out media550:right-0 right-4 ${isOpen ? "absolute top-[10px] rounded-sm bg-black/85 backdrop-blur-md opacity-100" : "media550:top-0 media550:relative absolute top-[-150px] opacity-0 media550:opacity-100 z-20"}`}
+            className={`media550:right-0 right-4 transition-all duration-800 ease-in-out ${isOpen ? "absolute top-[10px] rounded-sm bg-black/85 opacity-100 backdrop-blur-md" : "media550:top-0 media550:relative media550:opacity-100 absolute top-[-150px] z-20 opacity-0"}`}
           >
-            <ul className="media550:items-center media550:space-y-0 media550:flex-row media550:p-0 flex flex-col space-y-2 space-x-4 p-4 w-[155px] text-lg font-medium text-[#FFF8E1]">
+            <ul className="media550:items-center media550:space-y-0 media550:flex-row media550:p-0 flex flex-col space-y-2 space-x-4 p-4 text-lg font-medium text-[#FFF8E1]">
+
               <li>
-                <Link to="/" onClick={handleLinkClick}>Home</Link>
+                <Link to="/" onClick={handleLinkClick}>
+                  Home
+                </Link>
               </li>
+
+              <li
+                onClick={() => setIsCategoryOpen((prev) => !prev)}
+                className="relative cursor-pointer"
+              >
+                <div className="flex items-center space-x-2">
+                  <span>Category</span>
+                  <span
+                    className={`transition-transform duration-500 ease-in-out ${isCategoryOpen && "rotate-180"}`}
+                  >
+                    <IoMdArrowDropdown />
+                  </span>
+                </div>
+                <ul
+                  className={`scrollbar-thin scrollbar-thumb-amber-700 scrollbar-track-amber-300 absolute top-8 z-10 max-h-50 overflow-y-scroll bg-amber-200 py-2 text-gray-800 transition-all duration-500 ease-in-out ${isCategoryOpen ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-[-100px] opacity-0"}`}
+                >
+                  {categoryList.map((item) => (
+                    <li
+                      className="px-2 hover:bg-amber-500"
+                      onClick={() => {
+                        dispatch(fetchProducts(item));
+                        dispatch(setHeading(item));
+                      }}
+                      key={item}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </li>
+
               <li>
-                <Link to="/wishlist" onClick={handleLinkClick}>Wishlist</Link>
+                <Link to="/wishlist" onClick={handleLinkClick}>
+                  Wishlist
+                </Link>
               </li>
+
               <li className="relative text-2xl">
                 <Link to="/cart" onClick={handleLinkClick}>
                   {
@@ -104,6 +145,7 @@ function Header() {
                 </Link>
               </li>
             </ul>
+            
           </div>
         </section>
       </nav>
