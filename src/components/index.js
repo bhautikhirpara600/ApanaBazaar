@@ -12,5 +12,6 @@ import ScrollToTopButton from "./product/ScrollToTopButton"
 import ProductList from "./product/ProductList"
 import ProductDetail from "./product/ProductDetail";
 import Footer from "./footer/Footer";
+import CustomToaster from "./CustomToaster";
 
-export { Header, CartItem, EmptyCart, FinalCart, WishListItem, EmptyWishList, FinalWishList, Offers, ProductNavigator, Product,ScrollToTopButton ,ProductList, ProductDetail, Footer }
+export { Header, CartItem, EmptyCart, FinalCart, WishListItem, EmptyWishList, FinalWishList, Offers, ProductNavigator, Product,ScrollToTopButton ,ProductList, ProductDetail, Footer, CustomToaster }

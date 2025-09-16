@@ -10,6 +10,7 @@ import {
 import { convertToINR } from "../../store/slice/productSlice";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 function Product({ productId, imageUrl, price, title, discountPercentage }) {
   const dispatch = useDispatch();
@@ -18,10 +19,15 @@ function Product({ productId, imageUrl, price, title, discountPercentage }) {
     (wishlist) => wishlist.productId === productId,
   );
 
-  const wishListHandler = () =>
-    isWishListed
-      ? dispatch(removeWishListItem({ productId }))
-      : dispatch(addWishListItem({ productId }));
+  const wishListHandler = () => {
+    if (isWishListed) {
+      dispatch(removeWishListItem({ productId }));
+      toast.error("Removed from Wishlist...");
+    } else {
+      dispatch(addWishListItem({ productId }));
+      toast.success("Added to Wishlist...");
+    }
+  };
 
   const [isLoadImage, setIsLoadImage] = useState(false);
 
@@ -47,7 +53,10 @@ function Product({ productId, imageUrl, price, title, discountPercentage }) {
       </div>
       <div className="flex w-full items-center justify-between">
         <button
-          onClick={() => dispatch(addCartItem({ productId, quantity: 1 }))}
+          onClick={() => {
+            dispatch(addCartItem({ productId, quantity: 1 }));
+            toast.success("Added to Cart...");
+          }}
           className="btn-animation flex min-h-11 cursor-pointer items-center rounded-md bg-[#43A047] px-3 py-2 font-semibold text-white hover:scale-105 hover:bg-[#2e7d32] hover:shadow-md"
         >
           <span className="mr-2 text-xl">
