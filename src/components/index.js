@@ -13,5 +13,7 @@ import ProductList from "./product/ProductList"
 import ProductDetail from "./product/ProductDetail";
 import Footer from "./footer/Footer";
 import CustomToaster from "./CustomToaster";
+import Signin from "./account/Signin";
+import Signup from "./account/Signup";
 
-export { Header, CartItem, EmptyCart, FinalCart, WishListItem, EmptyWishList, FinalWishList, Offers, ProductNavigator, Product,ScrollToTopButton ,ProductList, ProductDetail, Footer, CustomToaster }
+export { Header, CartItem, EmptyCart, FinalCart, WishListItem, EmptyWishList, FinalWishList, Offers, ProductNavigator, Product,ScrollToTopButton ,ProductList, ProductDetail, Footer, CustomToaster, Signin, Signup }

@@ -2,6 +2,7 @@ import { IoClose } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { removeWishListItem } from "../../store/slice/wishListSlice";
 import { convertToINR } from "../../store/slice/productSlice";
+import toast from "react-hot-toast";
 
 function WishListItem({
   productId,
@@ -48,7 +49,10 @@ function WishListItem({
           ₹{convertToINR(price * quantity)}
         </p>
         <div
-          onClick={() => dispatch(removeWishListItem({ productId }))}
+          onClick={() => {
+            dispatch(removeWishListItem({ productId }));
+            toast.error("Removed from Wishlist...");
+          }}
           className="absolute top-2 right-2 cursor-pointer text-red-600"
         >
           <IoClose />

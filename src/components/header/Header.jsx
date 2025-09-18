@@ -44,7 +44,7 @@ function Header() {
       <nav className="sticky top-0 z-50 bg-black/85 backdrop-blur-md">
         <section
           ref={dropDownRef}
-          className="media550:px-8 big:max-w-[1536px] relative z-10 mx-auto flex items-center justify-between px-4 py-4"
+          className="media720:px-8 big:max-w-[1536px] relative z-10 mx-auto flex items-center justify-between px-4 py-4"
         >
           <div className="flex items-center text-3xl font-bold">
             <p className="text-[#FF6F00]">Apana</p>
@@ -58,7 +58,7 @@ function Header() {
             id="hamburger-menu"
             checked={isOpen}
           />
-          <label htmlFor="hamburger-menu" className="media550:hidden z-30">
+          <label htmlFor="hamburger-menu" className="media720:hidden z-30">
             <div className="flex h-[19px] w-[25px] cursor-pointer flex-col justify-between">
               <span
                 className={`h-[3px] rounded-[4px] bg-[#FFF8E1] transition-transform duration-300 ${isOpen ? "w-[20px] translate-x-[-3px] translate-y-[3px] rotate-45" : ""}`}
@@ -75,10 +75,9 @@ function Header() {
           </label>
 
           <div
-            className={`media550:right-0 right-4 transition-all duration-800 ease-in-out ${isOpen ? "absolute top-[10px] rounded-sm bg-black/85 opacity-100 backdrop-blur-md" : "media550:top-0 media550:relative media550:opacity-100 absolute top-[-150px] z-20 opacity-0"}`}
+            className={`media720:right-0 right-4 transition-all duration-800 ease-in-out ${isOpen ? "absolute top-[10px] rounded-sm bg-black/85 opacity-100 backdrop-blur-md" : "media720:top-0 media720:relative media720:opacity-100 absolute top-[-150px] z-20 opacity-0"}`}
           >
-            <ul className="media550:items-center media550:space-y-0 media550:flex-row media550:p-0 flex flex-col space-y-2 space-x-4 p-4 text-lg font-medium text-[#FFF8E1]">
-
+            <ul className="media720:items-center media720:space-y-0 media720:flex-row media720:p-0 flex flex-col space-y-2 space-x-4 p-4 text-lg font-medium text-[#FFF8E1]">
               <li>
                 <Link to="/" onClick={handleLinkClick}>
                   Home
@@ -126,17 +125,17 @@ function Header() {
                   {
                     <>
                       {" "}
-                      <span className="media550:block hidden">
+                      <span className="media720:block hidden">
                         <FaCartPlus />
                       </span>
-                      <span className="media550:hidden block text-lg">
+                      <span className="media720:hidden block text-lg">
                         Cart
                       </span>{" "}
                     </>
                   }
 
                   {totalQuantity ? (
-                    <span className="media550:top-[-12px] media550:right-0 absolute top-[6px] right-[65px] size-4 rounded-full bg-red-500 text-center text-[12px]">
+                    <span className="media720:top-[-12px] media720:right-0 absolute top-[6px] right-[65px] size-4 rounded-full bg-red-500 text-center text-[12px]">
                       {totalQuantity}
                     </span>
                   ) : (
@@ -144,8 +143,16 @@ function Header() {
                   )}
                 </Link>
               </li>
+
+              <li>
+                <Link
+                  to={"/signin"}
+                  className="cursor-pointer rounded-sm bg-[#ff6f00] px-4 py-2"
+                >
+                  <span>Sign in</span>
+                </Link>
+              </li>
             </ul>
-            
           </div>
         </section>
       </nav>

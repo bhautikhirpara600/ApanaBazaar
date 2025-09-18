@@ -5,7 +5,7 @@ import App from "./App.jsx";
 import Home from "./pages/Home.jsx";
 import WishList from "./pages/WishList.jsx";
 import Cart from "./pages/Cart.jsx";
-import { ProductDetail } from "./components";
+import { Signin, ProductDetail, Signup } from "./components";
 
 const router = createBrowserRouter([
   {
@@ -26,8 +26,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/product-detail/:id",
-        element: <ProductDetail />
-      }
+        element: <ProductDetail />,
+      },
+      {
+        path: "/signin",
+        element: <Signin />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
     ],
   },
 ]);
