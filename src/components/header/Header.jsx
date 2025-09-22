@@ -2,29 +2,76 @@ import { useEffect, useRef, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, setHeading } from "../../store/slice/productSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   productDataSelector,
   totalQuantitySelector,
 } from "../../store/slice/cartSlice";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { categoryList } from "../../constants/categoryLists";
+import { appwriteGetUser, appwriteLogout } from "../../service/appwrite";
+import {
+  setAuthError,
+  setAuthLoading,
+  setIsLoggedIn,
+} from "../../store/slice/authSlice";
+import ButtonOrange from "../ButtonOrange";
+import Logo from "./Logo";
+import HamburgerMenu from "./HamburgerMenu";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const dropDownRef = useRef(null);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const productData = useSelector(productDataSelector);
   const totalQuantity = useSelector(totalQuantitySelector);
+  const { loading: myLoading, isLoggedIn: userLogged } = useSelector(
+    (state) => state.emailAuth,
+  );
 
   const handleLinkClick = () => setIsOpen(false);
+  const handleSignin = () => navigate("/signin");
+  const handleLogout = () => {
+    const func = async () => {
+      try {
+        dispatch(setAuthLoading(true));
+        await appwriteLogout();
+        dispatch(setIsLoggedIn(false));
+      } catch (error) {
+        console.error("Header Comp Logout ::", error);
+        dispatch(setAuthError(error?.message || "Something went wrong."));
+      } finally {
+        dispatch(setAuthLoading(false));
+      }
+    };
+
+    func();
+  };
 
   useEffect(() => {
     if (productData.length === 0) {
       dispatch(fetchProducts());
     }
+
+    const func = async () => {
+      try {
+        dispatch(setAuthLoading(true));
+        const result = await appwriteGetUser();
+        if (result?.status) {
+          dispatch(setIsLoggedIn(true));
+        }
+      } catch (error) {
+        console.error("Header Comp ::", error);
+        dispatch(setAuthError(error?.message || "Something went wrong."));
+      } finally {
+        dispatch(setAuthLoading(false));
+      }
+    };
+
+    func();
   }, []);
 
   useEffect(() => {
@@ -39,6 +86,8 @@ function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  if (myLoading) return null;
+
   return (
     <>
       <nav className="sticky top-0 z-50 bg-black/85 backdrop-blur-md">
@@ -46,34 +95,8 @@ function Header() {
           ref={dropDownRef}
           className="media720:px-8 big:max-w-[1536px] relative z-10 mx-auto flex items-center justify-between px-4 py-4"
         >
-          <div className="flex items-center text-3xl font-bold">
-            <p className="text-[#FF6F00]">Apana</p>
-            <span className="text-[#fff]">Bazaar</span>
-          </div>
-
-          <input
-            onChange={() => setIsOpen((prevState) => !prevState)}
-            className="pointer-events-none absolute top-0 hidden"
-            type="checkbox"
-            id="hamburger-menu"
-            checked={isOpen}
-          />
-          <label htmlFor="hamburger-menu" className="media720:hidden z-30">
-            <div className="flex h-[19px] w-[25px] cursor-pointer flex-col justify-between">
-              <span
-                className={`h-[3px] rounded-[4px] bg-[#FFF8E1] transition-transform duration-300 ${isOpen ? "w-[20px] translate-x-[-3px] translate-y-[3px] rotate-45" : ""}`}
-              ></span>
-
-              <span
-                className={`h-[3px] rounded-[4px] bg-[#FFF8E1] transition-transform duration-300 ${isOpen ? "opacity-0" : ""}`}
-              ></span>
-
-              <span
-                className={`h-[3px] rounded-[4px] bg-[#FFF8E1] transition-transform duration-300 ${isOpen ? "w-[20px] translate-x-[-3px] -translate-y-[13px] -rotate-45" : ""}`}
-              ></span>
-            </div>
-          </label>
-
+          <Logo />
+          <HamburgerMenu isOpen={isOpen} setIsOpen={setIsOpen} />
           <div
             className={`media720:right-0 right-4 transition-all duration-800 ease-in-out ${isOpen ? "absolute top-[10px] rounded-sm bg-black/85 opacity-100 backdrop-blur-md" : "media720:top-0 media720:relative media720:opacity-100 absolute top-[-150px] z-20 opacity-0"}`}
           >
@@ -145,12 +168,15 @@ function Header() {
               </li>
 
               <li>
-                <Link
-                  to={"/signin"}
-                  className="cursor-pointer rounded-sm bg-[#ff6f00] px-4 py-2"
-                >
-                  <span>Sign in</span>
-                </Link>
+                {userLogged ? (
+                  <ButtonOrange className="py-[6px]" onClick={handleLogout}>
+                    Logout
+                  </ButtonOrange>
+                ) : (
+                  <ButtonOrange className="py-[6px]" onClick={handleSignin}>
+                    Sign in
+                  </ButtonOrange>
+                )}
               </li>
             </ul>
           </div>

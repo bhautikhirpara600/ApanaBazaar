@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import Home from "./pages/Home.jsx";
 import WishList from "./pages/WishList.jsx";
 import Cart from "./pages/Cart.jsx";
+import VerifyEmail from "./pages/VerifyEmail.jsx";
 import { Signin, ProductDetail, Signup } from "./components";
 
 const router = createBrowserRouter([
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "/verifyEmail",
+        element: <VerifyEmail />,
       },
     ],
   },
