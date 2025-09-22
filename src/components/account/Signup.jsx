@@ -22,10 +22,23 @@ function Signup() {
   });
 
   const validateForm = (data) => {
-    if (data.password !== data.confirmPassword) {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
+    const { password, confirmPassword } = data;
+
+    if (password !== confirmPassword) {
       dispatch(setAuthError("Passwords don’t match—try again carefully..."));
       return false;
     }
+
+    if (!passwordRegex.test(password)) {
+      dispatch(
+        setAuthError(
+          "Password must be at least 8 characters, include uppercase, lowercase, and a special character.",
+        ),
+      );
+      return false;
+    }
+
     return true;
   };
 
