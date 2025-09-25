@@ -158,7 +158,7 @@ function Header() {
                   }
 
                   {totalQuantity ? (
-                    <span className="media720:top-[-12px] media720:right-0 absolute top-[6px] right-[65px] size-4 rounded-full bg-red-500 text-center text-[12px]">
+                    <span className="media720:top-[-12px] media720:right-0 absolute top-[6px] right-[35px] size-4 rounded-full bg-red-500 text-center text-[12px]">
                       {totalQuantity}
                     </span>
                   ) : (
